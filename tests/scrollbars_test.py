@@ -1,30 +1,39 @@
 import pytest
+
 from pages.scrollbars_page import ScrollbarsPage
+from playwright.sync_api import Page, expect
 
 
 # @pytest.mark.skip_browser("firefox")
 class TestScrollbars:
-    def test_scrollbar(self, page):
-        page = ScrollbarsPage(page, '/scrollbars')
-        page.open_browser()
-        page.hiding_button_click()
+    def test_scrollbar(self, page: Page):
+        page1 = ScrollbarsPage(page, '/scrollbars')
+        page1.open_browser()
+        page1.hiding_button_click()
+        page1.check_hiding_button_is_visible()
 
+    def test_sampleapp_fill_data_(self, page: Page):
+        page1 = ScrollbarsPage(page, '/sampleapp')
+        page1.open_browser()
+        name = 'padre'
+        page1.set_login_password(name, 'pwd')
+        page1.check_login_was_success(f"Welcome, {name}!")
 
-@pytest.mark.skip_browser("firefox")
-def test_client_site_delay(page):
-    page.goto('/clientdelay')
-    page.click('//button[@id="ajaxButton"]')
-    page.click('text=Data calculated on the client side.')
-
-
-def test_sample_app(page):
-    page.goto('/sampleapp')
-    page.click('[name="UserName"]')
-    page.fill('[name="UserName"]', 'Randy1')
-    page.press('[name="UserName"]', 'Tab')
-    page.fill('[placeholder="********"]', 'pwdd')
-    page.click('text=Log In')
-    page.click(f'text=Welcome, Randy1')
+# @pytest.mark.skip_browser("firefox")
+# def test_client_site_delay(page):
+#     page.goto('/clientdelay')
+#     page.click('//button[@id="ajaxButton"]')
+#     page.click('text=Data calculated on the client side.')
+#
+#
+# def test_sample_app(page):
+#     page.goto('/sampleapp')
+#     page.click('[name="UserName"]')
+#     page.fill('[name="UserName"]', 'Randy1')
+#     page.press('[name="UserName"]', 'Tab')
+#     page.fill('[placeholder="********"]', 'pwdd')
+#     page.click('text=Log In')
+#     page.click(f'text=Welcome, Randy1')
 
 # @pytest.mark.skip_browser("firefox")
 # def test_has_title(page: Page):
